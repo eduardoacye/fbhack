@@ -1,0 +1,18 @@
+{
+  "name": "fbhack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backup your fb chats and analyze that shit",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduardoacye/fbhack.git"
+  },
+  "author": "eay",
+  "bugs": {
+    "url": "https://github.com/eduardoacye/fbhack/issues"
+  },
+  "homepage": "https://github.com/eduardoacye/fbhack#readme"
+}
