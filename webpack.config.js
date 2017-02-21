@@ -21,6 +21,11 @@ module.exports = {
         test: /\.css$/,
         exclude: /node_modules/,
         loader: 'style-loader!css-loader?'
+      },
+      {
+        test: /\.ttf$/,
+        exclude: /node_modules/,
+        loader: 'file-loader?name=fonts/roboto/[name].[ext]'
       }
     ]
   },
