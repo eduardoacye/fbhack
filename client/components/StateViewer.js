@@ -32,6 +32,50 @@ class StateViewer extends Component {
     const buttonsize = 48;
     const iconsize = 24;
     const palette = this.props.muiTheme.palette;
+    let content = (
+      <div style={ { height: '100%' } }>
+        <Paper zDepth={ 1 } rounded={ false }
+               style={ { backgroundColor: palette.accent2Color,
+                         position: 'fixed',
+                         margin: 0, padding: 0, overflow: 'hidden',
+                         top: 0, left: 0, zIndex: 9999,
+                         width: '100%' } }>
+          <IconButton onTouchTap={ this.handleToggle }
+                      style={ { float: this.state.right ? 'right' : 'left' } }>
+            <Close color={ palette.accent1Color } />
+          </IconButton>
+          <IconButton onTouchTap={ this.handleSwap }
+                      style={ { float: this.state.right ? 'left' : 'right' } }>
+            <Swap color={ palette.accent1Color } />
+          </IconButton>
+          <br/>
+          <div style={ { padding: 10, textAlign: 'center' } }>
+            <h1>
+              <BugReport color={ palette.accent3Color } />
+              <span style={ { color: palette.primary1Color } }>
+                State viewer
+              </span>
+              <BugReport color={ palette.accent3Color } />
+            </h1>
+            <p>Check out information about the running program.</p>
+          </div>
+        </Paper>
+        <div style={ { marginTop: 180, position: 'absolute', width: '100%',
+                       top: 0, left: 0, bottom: 0, overflow: 'auto' } }>
+          {
+            this.props.sections.map((sec, i) => (
+              <div key={ i }>
+                <Subheader>{ sec.header }</Subheader>
+                <ObjectView data={ sec.data } />
+                <br/>
+                <Divider/>
+              </div>
+            ))
+          } <div style={ { height: 50 } }></div>
+        </div>
+      </div>
+    );
+    
     return (
       <div>
         <IconButton style={ { width: buttonsize, height: buttonsize, padding: 12 } }
@@ -42,39 +86,9 @@ class StateViewer extends Component {
         <Drawer docked={ true } width={ 300 } open={ this.state.isOpen }
                 onRequestChange={ isOpen => this.setState({ isOpen: isOpen }) }
                 openSecondary={ this.state.right } zDepth={ 3 }>
-          <Paper zDepth={ 1 } rounded={ false }
-                 style={ { backgroundColor: palette.accent2Color } }>
-            <IconButton onTouchTap={ this.handleToggle }
-                        style={ { float: this.state.right ? 'right' : 'left' } }>
-              <Close color={ palette.accent1Color } />
-            </IconButton>
-            <IconButton onTouchTap={ this.handleSwap }
-                        style={ { float: this.state.right ? 'left' : 'right' } }>
-              <Swap color={ palette.accent1Color } />
-            </IconButton>
-            <br/>
-            <div style={ { padding: 10, textAlign: 'center' } }>
-              <h1>
-                <BugReport color={ palette.accent3Color } />
-                <span style={ { color: palette.primary1Color } }>
-                  State viewer
-                </span>
-                <BugReport color={ palette.accent3Color } />
-              </h1>
-              <p>Check out information about the running program.</p>
-            </div>
-          </Paper>
-          {
-            this.props.sections.map((sec, i) => (
-              <div key={ i }>
-                <Subheader>{ sec.header }</Subheader>
-                <ObjectView data={ sec.data } />
-                <br/>
-                <Divider/>
-              </div>
-            ))
-          }
+          { content }
         </Drawer>
+
       </div>
     );
   }
