@@ -12,6 +12,9 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 
 import ObjectView from './ObjectView';
 
+import fixedHeaderStyle from '../utils/fixed-header-style';
+import fixedContentStyle from '../utils/fixed-content-style';
+
 class StateViewer extends Component {
   constructor(props) {
     super(props);
@@ -36,10 +39,7 @@ class StateViewer extends Component {
       <div style={ { height: '100%' } }>
         <Paper zDepth={ 1 } rounded={ false }
                style={ { backgroundColor: palette.accent2Color,
-                         position: 'fixed',
-                         margin: 0, padding: 0, overflow: 'hidden',
-                         top: 0, left: 0, zIndex: 9999,
-                         width: '100%' } }>
+                         ...fixedHeaderStyle } }>
           <IconButton onTouchTap={ this.handleToggle }
                       style={ { float: this.state.right ? 'right' : 'left' } }>
             <Close color={ palette.accent1Color } />
@@ -60,8 +60,7 @@ class StateViewer extends Component {
             <p>Check out information about the running program.</p>
           </div>
         </Paper>
-        <div style={ { marginTop: 180, position: 'absolute', width: '100%',
-                       top: 0, left: 0, bottom: 0, overflow: 'auto' } }>
+        <div style={ { marginTop: 180, width: '100%', ...fixedContentStyle } }>
           {
             this.props.sections.map((sec, i) => (
               <div key={ i }>
