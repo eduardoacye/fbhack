@@ -26,8 +26,18 @@ module.exports = {
         test: /\.ttf$/,
         exclude: /node_modules/,
         loader: 'file-loader?name=fonts/roboto/[name].[ext]'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
       }
     ]
+  },
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   },
   plugins: [
     new htmlPlugin({

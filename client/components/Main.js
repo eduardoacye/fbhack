@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 
 import StyleConfig from './StyleConfig';
 import ColorMenu from './ColorMenu';
+import LogoutMenu from './LogoutMenu';
 import StateViewer from './StateViewer';
 import Login from './Login';
+import ThreadsMenu from './ThreadsMenu';
 
 import AppBar from 'material-ui/AppBar';
 
@@ -100,9 +102,20 @@ class Main extends Component {
 
   render() {
     const { primaryName, accentName } = this.state.colorScheme;
-    const colorMenu = (<ColorMenu primaryName={ primaryName }
-                                  accentName={ accentName }
-                                  updateColorScheme={ this.updateColorScheme } />);
+    const colorMenu = (<ColorMenu
+                           primaryName={ primaryName }
+                           accentName={ accentName }
+                           updateColorScheme={ this.updateColorScheme }
+                       />);
+    const logoutMenu = (<LogoutMenu
+                            visible={ this.state.loggedIn }
+                            click={ this.resetLoginInfo }
+                        />);
+    const menu = (
+      <div>
+        { colorMenu }
+        { logoutMenu }
+      </div>);
     const stateViewer = (<StateViewer
                              sections={ [
                                {
@@ -125,7 +138,7 @@ class Main extends Component {
           <div style={ { ...fixedHeaderStyle } }>
             <AppBar
                 title="fbhack"
-                iconElementRight={ colorMenu }
+                iconElementRight={ menu }
                 iconElementLeft={ stateViewer }
             />
           </div>
@@ -133,7 +146,9 @@ class Main extends Component {
           <div style={ { width: '100%', marginTop: 64,
                          ...fixedContentStyle } }>
             <div style={ { padding: 50 } }>
-              { this.state.loggedIn ? 'TODO: User page' : <Login update={ this.updateLoginInfo } /> }
+              { this.state.loggedIn ?
+                (<ThreadsMenu user={ this.state.currentUser } />) :
+                (<Login update={ this.updateLoginInfo } />) }
             </div>
           </div>
         </div>
