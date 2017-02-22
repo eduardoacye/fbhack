@@ -8,6 +8,8 @@ import TextField from 'material-ui/TextField';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { red500 } from 'material-ui/styles/colors';
 
+import fbhAttemptLogin from '../hack/fbhAttemptLogin';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +33,7 @@ class Login extends Component {
 
   handleLogin() {
     const { username, password } = this.state;
-    const { loggedIn, ...user } = {}; /* TODO */
+    const { loggedIn, ...user } = fbhAttemptLogin(username, password);
     if (loggedIn) {
       this.props.update(true, user);
     } else {
