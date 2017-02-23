@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack -d",
     "start": "node server",
-    "debug": "webpack --progress --colors --watch -d & nodemon -w ./server ./server/index.js",
+    "debug": "webpack --colors --watch -d & nodemon -w ./server ./server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
