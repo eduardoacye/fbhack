@@ -162,19 +162,34 @@ const login = exports.login =
     loginGET(
       session,
       (res, body) => {
-        let lsd = extractLSD(body);
+        try {
+          var lsd = extractLSD(body);
+        } catch (err) {
+          proceed({ loggedIn: false });
+          return;
+        }
         loginPOST(
           username, password, session, lsd,
           (res, body) => {
-            let fbid = extractID(body);
-            let fullname = extractFullname(body);
-            let shortname = extractShortname(body);
-            let fbdtsg = extractDTSG(body);
+            try {
+              var fbid = extractID(body);
+              var fullname = extractFullname(body);
+              var shortname = extractShortname(body);
+              var fbdtsg = extractDTSG(body);
+            } catch (err) {
+              proceed({ loggedIn: false });
+              return;
+            }
             homeGET(
               username, session,
               (res, body) => {
-                let profilepic = extractProfilePic(body).replace('&amp;', '&');
-                let coverpic = extractCoverPic(body).replace('&amp;', '&');
+                try {
+                  var profilepic = extractProfilePic(body).replace('&amp;', '&');
+                  var coverpic = extractCoverPic(body).replace('&amp;', '&');
+                } catch (err) {
+                  proceed({ loggedIn: false });
+                  return;
+                }
                 proceed({
                   loggedIn: true,
                   user: {
