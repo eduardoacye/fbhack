@@ -9,7 +9,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import { red500 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import fbhAttemptLogin from '../hack/fbhAttemptLogin';
+import { login } from '../hack/fbh';
 
 class Login extends Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class Login extends Component {
     this.setState({
       isConnecting: true
     }, () => {
-      fbhAttemptLogin(username, password, result => {
+      login(username, password, result => {
         let { loggedIn, user } = result;
         if (loggedIn && user) {
           this.setState({ isConnecting: false },

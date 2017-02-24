@@ -29,7 +29,8 @@ class Main extends Component {
           username: ss.currentUser.username,
           fullname: ss.currentUser.fullname,
           shortname: ss.currentUser.shortname,
-          picture: ss.currentUser.picture,
+          profilepic: ss.currentUser.profilepic,
+          coverpic: ss.currentUser.coverpic,
           session: ss.currentUser.session,
           fbdtsg: ss.currentUser.fbdtsg,
         },
@@ -46,7 +47,8 @@ class Main extends Component {
           username: undefined,
           fullname: undefined,
           shortname: undefined,
-          picture: undefined,
+          profilepic: undefined,
+          coverpic: undefined,
           session: undefined,
           fbdtsg: undefined
         },
@@ -69,7 +71,8 @@ class Main extends Component {
         username: user.username,
         fullname: user.fullname,
         shortname: user.shortname,
-        picture: user.picture,
+        profilepic: user.profilepic,
+        coverpic: user.coverpic,
         session: user.session,
         fbdtsg: user.fbdtsg
       }
@@ -84,7 +87,8 @@ class Main extends Component {
         username: undefined,
         fullname: undefined,
         shortname: undefined,
-        picture: undefined,
+        profilepic: undefined,
+        coverpic: undefined,
         session: undefined,
         fbdtsg: undefined
       }

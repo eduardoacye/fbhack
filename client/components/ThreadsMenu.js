@@ -15,14 +15,17 @@ import Subheader from 'material-ui/Subheader';
 
 const ThreadsMenu = ({user, ...rest}) => {
   const chatIcon = (<FontIcon className="material-icons">chat_bubble</FontIcon>);
+  const profilePic = (<Avatar src={ user.profilepic } size={100} />);
   return (
-    <Card>
+    <Card style={ { width: 828, margin: 'auto' } } >
       <CardHeader
           title={ user.fullname }
           subtitle={ user.username }
-          avatar={ user.picture }
+          avatar={ profilePic }
       />
-      <Divider/>
+      <CardMedia>
+        <img src={ user.coverpic } />
+      </CardMedia>
       <CardTitle title="Threads" />
       <div style={{ display: 'table', margin: '0 auto' }}>
         <IconButton disabled={ true }><FontIcon className="material-icons">keyboard_arrow_left</FontIcon></IconButton>
