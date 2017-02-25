@@ -43,15 +43,16 @@ const threadlistItems = (user, tlist) => {
       return (
         <Avatar size={ 50 }>
           <MultiAvatar>
-            { fbids.map((id, i) => <img key={ i } src={ tlist.participants[id]['profilepic'] } />) }
+            { fbids.map((id, i) => <img key={ i } src={ tlist.participants[id] ? tlist.participants[id]['profilepic'] : '' } />) }
           </MultiAvatar>
         </Avatar>
       );
     } else {
+      let id = fbids.filter(id => id != user.fbid)[0];
       return (
         <Avatar
             size={ 50 }
-            src={ tlist.participants[fbids.filter(id => id != user.fbid)[0]]['profilepic'] }
+            src={ tlist.participants[id] ? tlist.participants[id]['profilepic'] : '' }
         />
       );
     }
@@ -65,6 +66,7 @@ const threadlistItems = (user, tlist) => {
         secondaryTextLines={ 2 }
         leftAvatar={ composePics(t.participants) }
         rightIcon={ chatIcon(t.participants) }
+        onClick={ () => console.log(t) }
     />
   ));
 }
@@ -144,7 +146,7 @@ class ThreadsMenu extends Component {
       (
         <div style={{ display: 'table', margin: '0 auto' }}>
           <IconButton
-              disabled={ page == this.state.firstPage }
+              disabled={ (page == this.state.firstPage) || this.state.isConnecting }
               onClick={ this.handlePageDecrement }
           >
             <FontIcon className="material-icons">
@@ -153,7 +155,7 @@ class ThreadsMenu extends Component {
           </IconButton>
           <div style={ { display: 'inline-block', height: '100%' } }>{ page }</div>
           <IconButton
-              disabled={ page == this.state.lastPage }
+              disabled={ (page == this.state.lastPage) || this.state.isConnecting }
               onClick={ this.handlePageIncrement }
           >
             <FontIcon className="material-icons">
