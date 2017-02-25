@@ -35,52 +35,52 @@ const ThreadsMenu = ({user, ...rest}) => {
       <div style={ { paddingLeft: 20, paddingRight: 20 } }>
         <List>
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
           <ListItem
-              primaryText="Some chat"
+              primaryText="Some chat" secondaryText="Last message"
               leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
               rightIcon={ chatIcon }
           />
