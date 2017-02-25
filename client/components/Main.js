@@ -12,6 +12,8 @@ import AppBar from 'material-ui/AppBar';
 import fixedHeaderStyle from '../utils/fixed-header-style';
 import fixedContentStyle from '../utils/fixed-content-style';
 
+import { logout } from '../hack/fbh';
+
 const getSS = () =>
   JSON.parse(window.sessionStorage.getItem('fbhack-state'));
 const saveSS = (state) =>
@@ -80,19 +82,21 @@ class Main extends Component {
   }
 
   resetLoginInfo() {
-    this.setState({
-      loggedIn: false,
-      currentUser: {
-        fbid: undefined,
-        username: undefined,
-        fullname: undefined,
-        shortname: undefined,
-        profilepic: undefined,
-        coverpic: undefined,
-        session: undefined,
-        fbdtsg: undefined
-      }
-    }, () => saveSS(this.state));
+    logout(() => {
+      this.setState({
+        loggedIn: false,
+        currentUser: {
+          fbid: undefined,
+          username: undefined,
+          fullname: undefined,
+          shortname: undefined,
+          profilepic: undefined,
+          coverpic: undefined,
+          session: undefined,
+          fbdtsg: undefined
+        }
+      }, () => saveSS(this.state));
+    });
   }
 
   updateColorScheme(primaryName, accentName) {

@@ -13,11 +13,21 @@ apiRouter.get('/', (req, res) =>
   }));
 
 
+var currentUser = {};
+
 var fbh = require('./hack/fbh');
 apiRouter.get('/login/', (req, res) => {
   fbh.login(req.query.username,
             req.query.password,
-            result => res.json(result));
+            result => {
+              currentUser = result;
+              res.json(result);
+            });
+});
+
+apiRouter.get('/logout/', (req, res) => {
+  currentUser={};
+  res.json(currentUser);
 });
 
 module.exports = apiRouter;

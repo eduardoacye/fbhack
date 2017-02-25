@@ -34,7 +34,7 @@ const reProfilePic =
 const reCoverPic =
   RegExp('img class="coverPhotoImg photo img" src="(.*?)"');
 
-const hdrsGet = {
+const hdrsGET = {
   'Host': 'www.facebook.com',
   'Origin': 'http://www.facebook.com',
   'Referer': 'http://www.facebook.com/',
@@ -59,9 +59,7 @@ const dataPost = (username, password, lsd) =>
   });
 
 
-const limitThreadlist = 20;
-
-const urlThreadlist = (offset, id, dtsg, limit = limitThreadlist) =>
+const urlThreadlist = (offset, id, dtsg, limit) =>
   (urlHome + 'ajax/mercury/threadlist_info.php?' +
    '&client=web_messenger' +
    `&inbox[offset]=${offset}` +
@@ -81,14 +79,18 @@ const loginGET =
     request({
       url: urlLogin,
       jar: session,
-      headers: hdrsGet
+      headers: hdrsGET
     }, (err, res, body) => {
       if (err) {
         throw new Error('Login page GET failed at obtaining a valid response');
       } else {
-        proceed(res, body);
+        proceed(body);
       }
     });
+
+/* 
+   GET LOGGED IN
+ */
 
 const loginPOST =
   (username, password, session, lsd, proceed) => {
@@ -102,23 +104,22 @@ const loginPOST =
       if (err) {
         throw new Error('Login page POST failed at obtaining a valid response');
       } else {
-        proceed(res, body);
+        proceed(body);
       }
     })
   };
-
 
 const homeGET =
   (username, session, proceed) =>
     request({
       url: urlUser(username),
       jar: session,
-      headers: hdrsGet
+      headers: hdrsGET
     }, (err, res, body) => {
       if (err) {
         throw new Error('User home page GET failed at obtaining a valid response');
       } else {
-        proceed(res, body);
+        proceed(body);
       }
     });
 
@@ -161,7 +162,7 @@ const login = exports.login =
     let session = request.jar();
     loginGET(
       session,
-      (res, body) => {
+      body => {
         try {
           var lsd = extractLSD(body);
         } catch (err) {
@@ -170,7 +171,7 @@ const login = exports.login =
         }
         loginPOST(
           username, password, session, lsd,
-          (res, body) => {
+          body => {
             try {
               var fbid = extractID(body);
               var fullname = extractFullname(body);
@@ -182,7 +183,7 @@ const login = exports.login =
             }
             homeGET(
               username, session,
-              (res, body) => {
+              body => {
                 try {
                   var profilepic = extractProfilePic(body).replace('&amp;', '&');
                   var coverpic = extractCoverPic(body).replace('&amp;', '&');
@@ -207,3 +208,21 @@ const login = exports.login =
           });
       });
   };
+
+/* 
+   GET CHAT THREADS
+ */
+
+const threadlistGET =
+  (session, fbid, fbdtsg, offset, limit, proceed) =>
+    request({
+      url: urlThreadlist(offset, fbid, fbdtsg, limit),
+      jar: session,
+      headers: hdrsGET
+    }, (err, res, body) => {
+      if (err) {
+        throw new Error('Thread list GET failed at obtaining a valid response');
+      } else {
+        proceed(JSON.parse(body.substr(9, body.length)));
+      }
+    });
