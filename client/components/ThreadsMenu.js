@@ -13,6 +13,10 @@ import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CircularProgress from 'material-ui/CircularProgress';
+import { grey400 } from 'material-ui/styles/colors'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
 import MultiAvatar from './MultiAvatar';
@@ -20,7 +24,38 @@ import MultiAvatar from './MultiAvatar';
 import { threadlist } from '../hack/fbh';
 
 const threadlistItems = (user, tlist) => {
-  const chatIcon = (<FontIcon className="material-icons">chat_bubble</FontIcon>);
+  const iconButtonElement = (
+    <IconButton touch={ true }
+                tooltip="participants"
+                tooltipPosition="bottom-left">
+      <MoreVertIcon color={ grey400 } />
+    </IconButton>
+  );
+  const chatIcon = (fbids) => (
+    <IconMenu iconButtonElement={ iconButtonElement }>
+      { fbids.map((id, i) => (
+          <MenuItem key={ i }>{ tlist.participants[id]['fullname'] }</MenuItem>
+        )) }
+    </IconMenu>
+  );
+  const composePics = (fbids) => {
+    if (fbids.length > 2) {
+      return (
+        <Avatar size={ 50 }>
+          <MultiAvatar>
+            { fbids.map((id, i) => <img key={ i } src={ tlist.participants[id]['profilepic'] } />) }
+          </MultiAvatar>
+        </Avatar>
+      );
+    } else {
+      return (
+        <Avatar
+            size={ 50 }
+            src={ tlist.participants[fbids.filter(id => id != user.fbid)[0]]['profilepic'] }
+        />
+      );
+    }
+  };
   return tlist.threads.map((t, i) => (
     <ListItem
         key={ i }
@@ -28,8 +63,8 @@ const threadlistItems = (user, tlist) => {
         secondaryText={
           ( <p><strong>{ t.previewSender ? tlist.participants[t.previewSender]['fullname'] : '' }</strong> -- { t.previewText }</p> ) }
         secondaryTextLines={ 2 }
-        leftAvatar={<Avatar size={ 50 } ><MultiAvatar>{ t.participants.map((id, i) => <img key={ i } src={ tlist.participants[id]['profilepic'] } />) }</MultiAvatar></Avatar>}
-        rightIcon={ chatIcon }
+        leftAvatar={ composePics(t.participants) }
+        rightIcon={ chatIcon(t.participants) }
     />
   ));
 }
