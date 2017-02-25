@@ -12,6 +12,27 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import CircularProgress from 'material-ui/CircularProgress';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+
+import MultiAvatar from './MultiAvatar';
+
+import { threadlist } from '../hack/fbh';
+
+const threadlistItems = (user, tlist) => {
+  const chatIcon = (<FontIcon className="material-icons">chat_bubble</FontIcon>);
+  return tlist.threads.map((t, i) => (
+    <ListItem
+        key={ i }
+        primaryText={ t.name ? t.name : t.participants.map(id => tlist.participants[id]['shortname']).join(', ') }
+        secondaryText={
+          ( <p><strong>{ t.previewSender ? tlist.participants[t.previewSender]['fullname'] : '' }</strong> -- { t.previewText }</p> ) }
+        secondaryTextLines={ 2 }
+        leftAvatar={<Avatar size={ 50 } ><MultiAvatar>{ t.participants.map((id, i) => <img key={ i } src={ tlist.participants[id]['profilepic'] } />) }</MultiAvatar></Avatar>}
+        rightIcon={ chatIcon }
+    />
+  ));
+}
 
 class ThreadsMenu extends Component {
   constructor(props) {
@@ -19,18 +40,63 @@ class ThreadsMenu extends Component {
     this.state = {
       page: 0,
       firstPage: 0,
-      lastPage: 10
+      lastPage: 10,
+      isConnecting: true,
+      tlist: {
+        participants: {},
+        threads: []
+      }
     };
     this.handlePageDecrement = this.handlePageDecrement.bind(this);
     this.handlePageIncrement = this.handlePageIncrement.bind(this);
   }
 
+  componentWillMount() {
+    threadlist(0, result => {
+      this.setState({
+        isConnecting: false,
+        tlist: {
+          participants: result.participants,
+          threads: result.threads
+        }
+      });
+    });
+  }
+
   handlePageDecrement() {
-    this.setState({ page: this.state.page - 1 });
+    let page = this.state.page - 1;
+    this.setState({
+      isConnecting: true,
+      page: page
+    }, () => {
+      threadlist(page, result => {
+        this.setState({
+          isConnecting: false,
+          tlist: {
+            participants: result.participants,
+            threads: result.threads
+          }
+        })
+      });
+    });
   }
 
   handlePageIncrement() {
-    this.setState({ page: this.state.page + 1 });
+    let page = this.state.page + 1;
+    this.setState({
+      isConnecting: true,
+      page: page
+    }, () => {
+      threadlist(page, result => {
+        this.setState({
+          isConnecting: false,
+          tlist: {
+            participants: result.participants,
+            threads: result.threads
+          }
+        })
+      });
+    });
   }
   
   render() {
@@ -38,6 +104,7 @@ class ThreadsMenu extends Component {
     const page = this.state.page;
     const chatIcon = (<FontIcon className="material-icons">chat_bubble</FontIcon>);
     const profilePic = (<Avatar src={ user.profilepic } size={100} />);
+    const palette = this.props.muiTheme.palette;
     const pageInteraction =
       (
         <div style={{ display: 'table', margin: '0 auto' }}>
@@ -73,58 +140,15 @@ class ThreadsMenu extends Component {
         <CardTitle title="Threads" />
         { pageInteraction }
         <div style={ { paddingLeft: 20, paddingRight: 20 } }>
-          <List>
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-            <ListItem
-                primaryText="Some chat" secondaryText="Last message"
-                leftAvatar={<Avatar src="https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=0bb129c4bacce2fd26d99c098ed48ce3&oe=5938E12F" />}
-                rightIcon={ chatIcon }
-            />
-          </List>
+          { this.state.isConnecting ?
+            (<div style={ { width: '100%', textAlign: 'center', margin: 'auto' } }>
+              <CircularProgress
+                  color={ palette.primary1Color }
+              />
+            </div>) :
+            (<List>
+            { threadlistItems(user, this.state.tlist) }
+            </List>)}
         </div>
         { pageInteraction }
         <Divider/>
@@ -140,4 +164,4 @@ class ThreadsMenu extends Component {
   }
 }
 
-export default ThreadsMenu;
+export default muiThemeable()(ThreadsMenu);

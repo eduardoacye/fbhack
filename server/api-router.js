@@ -20,7 +20,7 @@ apiRouter.get('/login/', (req, res) => {
   fbh.login(req.query.username,
             req.query.password,
             result => {
-              currentUser = result;
+              currentUser = result.user;
               res.json(result);
             });
 });
@@ -28,6 +28,12 @@ apiRouter.get('/login/', (req, res) => {
 apiRouter.get('/logout/', (req, res) => {
   currentUser={};
   res.json(currentUser);
+});
+
+apiRouter.get('/threadlist/', (req, res) => {
+  fbh.threadlist(currentUser,
+                 req.query.page,
+                 result => res.json(result));
 });
 
 module.exports = apiRouter;

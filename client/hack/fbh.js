@@ -10,4 +10,9 @@ const logout = proceed =>
     url: 'http://localhost:9000/api/logout/'
   }, (err, res, body) => proceed());
 
-export { login, logout };
+const threadlist = (page, proceed) =>
+  request({
+    url: `http://localhost:9000/api/threadlist/?page=${page}`
+  }, (err, res, body) => proceed(JSON.parse(body)));
+
+export { login, logout, threadlist };

@@ -214,7 +214,7 @@ const login = exports.login =
  */
 
 const threadlistGET =
-  (session, fbid, fbdtsg, offset, limit, proceed) =>
+  (session, fbid, fbdtsg, offset, limit, proceed) => {
     request({
       url: urlThreadlist(offset, fbid, fbdtsg, limit),
       jar: session,
@@ -223,6 +223,49 @@ const threadlistGET =
       if (err) {
         throw new Error('Thread list GET failed at obtaining a valid response');
       } else {
-        proceed(JSON.parse(body.substr(9, body.length)));
+        let result = JSON.parse(body.substr(9, body.length));
+        proceed(result);
       }
     });
+  };
+
+const threadlist = exports.threadlist =
+  (user, page, proceed) => {
+    threadlistGET(
+      user.session, user.fbid, user.fbdtsg, page*10, 10,
+      rawThreads => {
+        if (!rawThreads.payload || !rawThreads.payload.participants || !rawThreads.payload.threads) {
+          proceed({
+            participants: {},
+            threads: []
+          });
+        } else{
+          let participants = {};
+          rawThreads.payload.participants.forEach(p => {
+            participants[p.fbid] = {
+              profilepic: p.big_image_src,
+              fullname: p.name,
+              shortname: p.short_name,
+              username: p.vanity
+            };
+          });
+          let threads = rawThreads.payload.threads.map(t => {
+            return {
+              fbid: t.thread_fbid,
+              lastmsgTime: t.last_message_timestamp,
+              lastreadTime: t.last_read_timestamp,
+              msgCount: t.message_count,
+              name: t.name,
+              participants: t.participants.map(str => str.substr(5, str.length)),
+              previewText: t.snippet,
+              previewAttachments: t.snippet_attachments,
+              previewSender: t.snippet_sender ? t.snippet_sender.substr(5, t.snippet_sender.length) : ''
+            };
+          });
+          proceed({
+            participants: participants,
+            threads: threads
+          });
+        }
+      });
+  }
