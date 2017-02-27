@@ -48,7 +48,7 @@ const threadlistItems = (user, tlist) => {
         </Avatar>
       );
     } else {
-      let id = fbids.filter(id => id != user.fbid)[0];
+      let id = (fbids.length == 2) ? fbids.filter(id => id != user.fbid)[0] : fbids[0];
       return (
         <Avatar
             size={ 50 }
