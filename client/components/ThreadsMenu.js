@@ -23,7 +23,6 @@ import MultiAvatar from './MultiAvatar';
 
 import { threadlist } from '../hack/fbh';
 import * as emoji from '../hack/emoji';
-console.log(emoji);
 
 const threadlistItems = (user, tlist) => {
   const iconButtonElement = (
