@@ -4,7 +4,7 @@
    To update just copy the <table>...</table> element from the inspector
    and use some emacs keyboard macros or regular expressions magic to 
    obtain a map like the following:
-*/
+ */
 
 let rawMap = {
   "1f600": "https://static.xx.fbcdn.net/images/emoji.php/v7/z88/1/32/1f600.png",
@@ -910,7 +910,7 @@ const cleanup = (mp) => {
   return obj;
 }
 
-let sources = exports.sources = cleanup(rawMap);
+let sources = cleanup(rawMap);
 
 let restring = '(' +
                Object.keys(sources)
@@ -924,33 +924,32 @@ let restring = '(' +
 
 const emojire = () => RegExp(restring, 'g');
 
-/* "🎸 Hack a.... Hack a palooozahhh 🎷" */
-
-const matchmap = exports.matchmap =
-  (f, text) => {
-    let re = emojire();
-    let sindex = 0;
-    let aindex = 0;
-    let arr = [];
-    let match;
-
-    do {
-      match = re.exec(text);
-      if (!match) {
-        if (sindex != text.length) {
-          arr[aindex] = text.substring(sindex, text.length);
-          sindex = text.length;
-        }
-      } else {
-        if (match.index > sindex) {
-          arr[aindex] = text.substring(sindex, match.index);
-          sindex = sindex + arr[aindex].length;
-          aindex = aindex + 1;
-        }
-        arr[aindex] = f(match);
-        sindex = sindex + match[0].length;
+const matchmap = (f, text) => {
+  let re = emojire();
+  let sindex = 0;
+  let aindex = 0;
+  let arr = [];
+  let match;
+  
+  do {
+    match = re.exec(text);
+    if (!match) {
+      if (sindex != text.length) {
+        arr[aindex] = text.substring(sindex, text.length);
+        sindex = text.length;
+      }
+    } else {
+      if (match.index > sindex) {
+        arr[aindex] = text.substring(sindex, match.index);
+        sindex = sindex + arr[aindex].length;
         aindex = aindex + 1;
       }
-    } while (sindex < text.length);
-    return arr;
-  };
+      arr[aindex] = f(match);
+      sindex = sindex + match[0].length;
+      aindex = aindex + 1;
+    }
+  } while (sindex < text.length);
+  return arr;
+};
+
+export { sources, matchmap };
