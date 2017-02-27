@@ -22,6 +22,8 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import MultiAvatar from './MultiAvatar';
 
 import { threadlist } from '../hack/fbh';
+import * as emoji from '../hack/emoji';
+console.log(emoji);
 
 const threadlistItems = (user, tlist) => {
   const iconButtonElement = (
@@ -62,7 +64,7 @@ const threadlistItems = (user, tlist) => {
         key={ i }
         primaryText={ t.name ? t.name : t.participants.map(id => tlist.participants[id]['shortname']).join(', ') }
         secondaryText={
-          ( <p><strong>{ t.previewSender ? tlist.participants[t.previewSender]['fullname'] : '' }</strong> -- { t.previewText }</p> ) }
+          ( <p><strong>{ t.previewSender ? tlist.participants[t.previewSender]['fullname'] : '' }</strong> -- { emoji.matchmap(x => <img src={ emoji.sources[x[0]] } width={ 16 } height={ 16 } />, t.previewText) }</p> ) }
         secondaryTextLines={ 2 }
         leftAvatar={ composePics(t.participants) }
         rightIcon={ chatIcon(t.participants) }
