@@ -24,6 +24,12 @@ import MultiAvatar from './MultiAvatar';
 import { threadlist } from '../hack/fbh';
 import * as emoji from '../hack/emoji';
 
+const getSS = () =>
+  JSON.parse(window.sessionStorage.getItem('fbhack-pager'));
+
+const saveSS = (page) =>
+  window.sessionStorage.setItem('fbhack-pager', JSON.stringify(page));
+
 const threadlistItems = (user, tlist) => {
   const iconButtonElement = (
     <IconButton touch={ true }
@@ -75,8 +81,9 @@ const threadlistItems = (user, tlist) => {
 class ThreadsMenu extends Component {
   constructor(props) {
     super(props);
+    const ss = getSS();
     this.state = {
-      page: 0,
+      page: ss ? ss : 0,
       firstPage: 0,
       lastPage: 10,
       isConnecting: true,
@@ -90,7 +97,7 @@ class ThreadsMenu extends Component {
   }
 
   componentWillMount() {
-    threadlist(0, result => {
+    threadlist(this.state.page, result => {
       this.setState({
         isConnecting: false,
         tlist: {
@@ -107,6 +114,7 @@ class ThreadsMenu extends Component {
       isConnecting: true,
       page: page
     }, () => {
+      saveSS(page);
       threadlist(page, result => {
         this.setState({
           isConnecting: false,
@@ -125,6 +133,7 @@ class ThreadsMenu extends Component {
       isConnecting: true,
       page: page
     }, () => {
+      saveSS(page);
       threadlist(page, result => {
         this.setState({
           isConnecting: false,
