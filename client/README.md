@@ -1,3 +1,0 @@
-# fbhack
-
-## client-side programs
